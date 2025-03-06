@@ -88,13 +88,19 @@ const hashMap = () => {
     console.log(content);
   }
 
+  function clear() {
+    buckets.length = 0;
+    content = 0;
+    buckets.length = 16;
+  }
+
   function printBucket(pos) {
     buckets[pos].toString();
     // buckets[pos].printHead();
   }
 
   function print() {
-    console.log(buckets[13].printSize());
+    console.log(buckets);
   }
 
   return {
@@ -103,6 +109,7 @@ const hashMap = () => {
     has,
     remove,
     length,
+    clear,
     printBucket,
     print,
   };
@@ -113,3 +120,6 @@ test.set("Rama", 2004);
 test.set("Sita", 2004);
 test.printBucket(13);
 test.length();
+test.clear();
+test.length();
+test.print();
