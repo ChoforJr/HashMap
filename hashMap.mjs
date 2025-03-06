@@ -53,18 +53,33 @@ const hashMap = () => {
     }
   }
 
+  function has(key) {
+    const index = hash(key);
+    if (index < 0 || index >= buckets.length) {
+      throw new Error("Trying to access index out of bounds");
+    }
+    if (buckets[index] == undefined) {
+      return console.log(false);
+    } else if (buckets[index].containsKey(key)) {
+      return console.log(true);
+    } else {
+      return console.log(false);
+    }
+  }
+
   function printBucket(pos) {
     buckets[pos].toString();
     // buckets[pos].printHead();
   }
 
-  function print(pos) {
+  function print() {
     console.log(buckets);
   }
 
   return {
     set,
     get,
+    has,
     printBucket,
     print,
   };
@@ -72,6 +87,7 @@ const hashMap = () => {
 
 const test = hashMap();
 test.set("Rama", 2004);
+test.set("Sita", 2004);
 test.printBucket(13);
-test.get("there");
+test.has("Sita");
 // test.print();
