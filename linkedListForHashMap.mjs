@@ -56,21 +56,6 @@ export const linkedList = () => {
     console.log(previous.key, previous.value);
   }
 
-  //returns the node at the given index
-  function at(index) {
-    let current = head;
-    let previous;
-    for (let i = 0; i <= index; i++) {
-      if (i == index) {
-        console.log(current.key, current.value);
-        return;
-      }
-      previous = current;
-      current = current.nextNode;
-    }
-    return console.log(null);
-  }
-
   //removes the last element from the list
   function pop() {
     let current = head;
@@ -84,7 +69,7 @@ export const linkedList = () => {
   }
 
   //returns true if the passed in value is in the list and otherwise returns false
-  function contains(value) {
+  function containsValue(value) {
     let current = head;
     for (let i = 1; i <= size; i++) {
       if (value == current.value) {
@@ -105,18 +90,6 @@ export const linkedList = () => {
       current = current.nextNode;
     }
     return false;
-  }
-
-  //returns the index of the node containing value, or null if not found
-  function find(value) {
-    let current = head;
-    for (let i = 0; i < size; i++) {
-      if (value == current.value) {
-        return console.log(i);
-      }
-      current = current.nextNode;
-    }
-    return console.log(null);
   }
 
   //return value using its key
@@ -156,41 +129,17 @@ export const linkedList = () => {
     console.log(txtString);
   }
 
-  //that inserts a new node with the provided value at the given index
-  function insertAt(value, index) {
-    if (index < 0 || index >= size) return console.log("out of range");
+  //that removes the node using the key
+  function removeUsingKey(key) {
     let current = head;
     let previous;
-    let newNode = node(value);
-    if (index == 0) {
-      head = node(value, head);
-      size++;
-      return;
-    }
-    for (let i = 0; i <= index; i++) {
-      if (i == index) {
-        previous.nextNode = newNode;
-        newNode.nextNode = current;
-        size++;
-        return;
-      }
-      previous = current;
-      current = current.nextNode;
-    }
-  }
-
-  //that removes the node at the given index
-  function removeAt(index) {
-    if (index < 0 || index >= size) return console.log("out of range");
-    let current = head;
-    let previous;
-    if (index == 0) {
+    if (key == current.key) {
       head = current.nextNode;
       size--;
       return;
     }
-    for (let i = 0; i <= index; i++) {
-      if (i == index) {
+    for (let i = 0; i <= size; i++) {
+      if (key == current.key) {
         previous.nextNode = current.nextNode;
         size--;
         return;
@@ -206,14 +155,11 @@ export const linkedList = () => {
     printSize,
     printHead,
     printTail,
-    at,
     pop,
-    contains,
+    containsValue,
     containsKey,
-    find,
     returnValue,
     toString,
-    insertAt,
-    removeAt,
+    removeUsingKey,
   };
 };

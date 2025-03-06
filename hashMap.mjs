@@ -67,6 +67,21 @@ const hashMap = () => {
     }
   }
 
+  function remove(key) {
+    const index = hash(key);
+    if (index < 0 || index >= buckets.length) {
+      throw new Error("Trying to access index out of bounds");
+    }
+    if (buckets[index] == undefined) {
+      return console.log(false);
+    } else if (buckets[index].containsKey(key)) {
+      buckets[index].removeUsingKey(key);
+      return console.log(true);
+    } else {
+      return console.log(false);
+    }
+  }
+
   function printBucket(pos) {
     buckets[pos].toString();
     // buckets[pos].printHead();
@@ -80,6 +95,7 @@ const hashMap = () => {
     set,
     get,
     has,
+    remove,
     printBucket,
     print,
   };
@@ -87,7 +103,8 @@ const hashMap = () => {
 
 const test = hashMap();
 test.set("Rama", 2004);
-test.set("Sita", 2004);
+// test.set("Sita", 2004);
 test.printBucket(13);
-test.has("Sita");
+test.remove("Sita");
+test.printBucket(13);
 // test.print();
