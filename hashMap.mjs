@@ -5,8 +5,6 @@ const hashMap = () => {
   buckets.length = 16;
   let content = 0;
 
-  const itemsInBucket = 0;
-
   function hash(key) {
     let hashCode = 0;
 
@@ -36,6 +34,9 @@ const hashMap = () => {
       content++;
     } else {
       buckets[index].append(key, value);
+      if (!(key in buckets[index])) {
+        content++;
+      }
     }
   }
 
@@ -76,10 +77,15 @@ const hashMap = () => {
       return console.log(false);
     } else if (buckets[index].containsKey(key)) {
       buckets[index].removeUsingKey(key);
+      content--;
       return console.log(true);
     } else {
       return console.log(false);
     }
+  }
+
+  function length() {
+    console.log(content);
   }
 
   function printBucket(pos) {
@@ -88,7 +94,7 @@ const hashMap = () => {
   }
 
   function print() {
-    console.log(buckets);
+    console.log(buckets[13].printSize());
   }
 
   return {
@@ -96,6 +102,7 @@ const hashMap = () => {
     get,
     has,
     remove,
+    length,
     printBucket,
     print,
   };
@@ -103,8 +110,6 @@ const hashMap = () => {
 
 const test = hashMap();
 test.set("Rama", 2004);
-// test.set("Sita", 2004);
+test.set("Sita", 2004);
 test.printBucket(13);
-test.remove("Sita");
-test.printBucket(13);
-// test.print();
+test.length();
