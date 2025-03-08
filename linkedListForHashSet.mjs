@@ -1,7 +1,6 @@
-const node = (key = null, value = null, nextNode = null) => {
+const node = (key = null, nextNode = null) => {
   return {
     key,
-    value,
     nextNode,
   };
 };
@@ -11,12 +10,12 @@ export const linkedList = () => {
   let size = 0;
 
   //adds a new node containing value to the end of the list
-  function append(key, value) {
+  function append(key) {
     if (head == null) {
-      return prepend(key, value);
+      return prepend(key);
     }
     if (containsKey(key)) {
-      return changeValue(key, value);
+      return null;
     } else {
       let current = head;
       let previous;
@@ -24,32 +23,20 @@ export const linkedList = () => {
         previous = current;
         current = current.nextNode;
       }
-      previous.nextNode = node(key, value);
+      previous.nextNode = node(key);
       size++;
     }
   }
 
   //adds a new node containing value to the start of the list
-  function prepend(key, value) {
-    head = node(key, value, head);
+  function prepend(key) {
+    head = node(key, head);
     size++;
   }
 
   //returns the total number of nodes in the list
   function printSize() {
     return size;
-  }
-
-  //returns true if the passed in value is in the list and otherwise returns false
-  function containsValue(value) {
-    let current = head;
-    for (let i = 1; i <= size; i++) {
-      if (value == current.value) {
-        return true;
-      }
-      current = current.nextNode;
-    }
-    return false;
   }
 
   //returns true if the passed in key is in the list and otherwise returns false
@@ -62,28 +49,6 @@ export const linkedList = () => {
       current = current.nextNode;
     }
     return false;
-  }
-
-  //return value using its key
-  function returnValue(key) {
-    let current = head;
-    for (let i = 0; i < size; i++) {
-      if (key == current.key) {
-        return current.value;
-      }
-      current = current.nextNode;
-    }
-  }
-
-  //change the value using the key
-  function changeValue(key, value) {
-    let current = head;
-    for (let i = 0; i < size; i++) {
-      if (key == current.key) {
-        current.value = value;
-      }
-      current = current.nextNode;
-    }
   }
 
   //that removes the node using the key
@@ -117,23 +82,12 @@ export const linkedList = () => {
     return txtKeys;
   }
 
-  //return all Values
-  function returnAllValues() {
-    let current = head;
-    let txtValues = [];
-    while (current) {
-      txtValues.push(current.value);
-      current = current.nextNode;
-    }
-    return txtValues;
-  }
-
   //return all Entries [keys, Values]
   function returnAllEntries() {
     let current = head;
     let txtEntries = [];
     while (current) {
-      let newEntry = [current.key, current.value];
+      let newEntry = [current.key];
       txtEntries.push(newEntry);
       current = current.nextNode;
     }
@@ -144,12 +98,9 @@ export const linkedList = () => {
     append,
     prepend,
     printSize,
-    containsValue,
     containsKey,
-    returnValue,
     returnAllEntries,
     removeUsingKey,
     returnAllKey,
-    returnAllValues,
   };
 };

@@ -1,5 +1,5 @@
-import { linkedList } from "./linkedListForHashMap.mjs";
-const hashMap = () => {
+import { linkedList } from "./linkedListForHashSet.mjs";
+const hashSet = () => {
   const loadFactor = 0.75;
   const buckets = [];
   buckets.length = 16;
@@ -18,25 +18,23 @@ const hashMap = () => {
   }
 
   //This clones the buckets content into a new variable, increase the buckets length by 2,
-  //and then repopulate the bucket with the newly hash keys and their values
+  //and then repopulate the bucket with the newly hash keys
   function growthFunctionality() {
     const bucketsKeyClone = keys();
-    const bucketsValueClone = values();
 
     const bucketsNewLength = 2 * buckets.length;
     buckets.length = 0;
     buckets.length = bucketsNewLength;
 
     for (let i = 0; i < bucketsKeyClone.length; i++) {
-      set(bucketsKeyClone[i], bucketsValueClone[i]);
+      set(bucketsKeyClone[i]);
     }
   }
 
-  //takes two arguments: the first is a key, and the second is a value that is assigned to this key.
-  //If a key already exists, then the old value is overwritten, and we can say that we update the key’s value
+  //takes in a key, hash it and then add it to the hashMap If a key already exists then do nothing
   //We all so growth the bucket size and reaarange the contents using the the growthFunctionality function
   //If the length of the bucket exceeds the growthcheck, we grow the bucket by 2
-  function set(key, value) {
+  function set(key) {
     const growthChecker = loadFactor * buckets.length;
 
     const index = hash(key);
@@ -46,28 +44,12 @@ const hashMap = () => {
 
     if (buckets[index] == undefined) {
       buckets[index] = linkedList();
-      buckets[index].append(key, value);
+      buckets[index].append(key);
     } else {
-      buckets[index].append(key, value);
+      buckets[index].append(key);
     }
     if (length() > growthChecker) {
       growthFunctionality();
-    }
-  }
-
-  //takes one argument as a key and returns the value that is assigned to this key.
-  //If a key is not found, return null
-  function get(key) {
-    const index = hash(key);
-    if (index < 0 || index >= buckets.length) {
-      throw new Error("Trying to access index out of bounds");
-    }
-    if (buckets[index] == undefined) {
-      return null;
-    } else if (buckets[index].containsKey(key)) {
-      return buckets[index].returnValue(key);
-    } else {
-      return null;
     }
   }
 
@@ -137,24 +119,8 @@ const hashMap = () => {
     return txtKeys;
   }
 
-  //returns an array containing all the values
-  function values() {
-    let txtValues = [];
-    for (let i = 0; i < buckets.length; i++) {
-      if (buckets[i] == undefined) {
-        continue;
-      } else {
-        let newValue = buckets[i].returnAllValues();
-        newValue.forEach((item) => {
-          txtValues.push(item);
-        });
-      }
-    }
-    return txtValues;
-  }
-
-  //returns an array that contains each key, value pair.
-  //Example: [[firstKey, firstValue], [secondKey, secondValue]]
+  //returns an array that contains each key from each index.
+  //Example: [[firstKey], [secondKey]]
   function entries() {
     let txtEntries = [];
     for (let i = 0; i < buckets.length; i++) {
@@ -170,17 +136,15 @@ const hashMap = () => {
 
   return {
     set,
-    get,
     has,
     remove,
     length,
     clear,
     keys,
-    values,
     entries,
   };
 };
-const test = hashMap();
+const test = hashSet();
 
 test.set("apple", "red");
 test.set("banana", "yellow");
@@ -197,27 +161,19 @@ test.set("lion", "golden");
 
 test.set("moon", "silver");
 
-console.log(test.get("carrot"));
 console.log(test.has("carrot"));
 console.log(test.length());
 console.log(test.keys());
-console.log(test.values());
 console.log(test.entries());
 
 test.set("moon", "bronze");
 
-console.log(test.get("moon"));
 console.log(test.has("moon"));
 console.log(test.length());
 console.log(test.keys());
-console.log(test.values());
 console.log(test.entries());
 
 console.log(test.remove("hat"));
 console.log(test.length());
 console.log(test.keys());
-console.log(test.values());
-console.log(test.entries());
-
-test.clear();
 console.log(test.entries());
